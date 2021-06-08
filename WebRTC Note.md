@@ -236,7 +236,94 @@ WebRTC采用iLIBC/iSAC/G722/PCM16/RED/AVT编解码技术。WebRTC还提供NetEQ�
 
 理论延迟：经我们实验室测试以及线上数据分析，WebRTC 方案的延迟可以达到 1 秒以内。QUIC延迟在3秒左右。
 
-（3）
+（3）终端接入方案：基于WebRTC全模块的接入方案、基于WebRTC传输层的接入方案
+
+基于WebRTC全模块的接入方案：对现有推流端和播放端侵入性极大；WebRTC应用场景是通话，延迟优于画质，RTC技术栈和直播技术栈存在差异；包较大；
+
+基于WebRTC传输层的接入方案：WebRTC只使用核心传输相关模块（RTP/RTCP, FEC, NACK, Jitter buffer, 音视频同步，拥塞控制等），将这些模块封装为ffmpeg插件，注入到ffmpeg中；
+
+## 6月7日
+
+1、[小议WebRTC拥塞控制算法：GCC介绍 (juejin.cn)](https://juejin.cn/post/6844903679602982925)
+
+（1）WebRTC的传输层是基于UDP协议，在此之上，使用的是标准的RTP/RTCP协议封装媒体流。RTP/RTCP本身提供很多机制来保证传输的可靠性，比如RR/SR, NACK，PLI，FIR, FEC，REMB等，同时WebRTC还扩展了RTP/RTCP协议，来提供一些额外的保障，比如Transport-CCFeedback, RTP Transport-wide-cc extension，RTP abs-sendtime extension等。
+
+（2）WebRTC的拥塞控制算法称为GCC，GCC算法主要分成两个部分，一个是基于丢包的拥塞控制，一个是基于延迟的拥塞控制。
+
+在早期的实现当中，这两个拥塞控制算法分别是在发送端和接收端实现的，接收端的拥塞控制算法所计算出的估计带宽，会通过RTCP的remb反馈到发送端，发送端综合两个控制算法的结果得到一个最终的发送码率，并以此码率发送数据包。
+
+（3）基于丢包的拥塞控制
+
+只需要根据从接收端反馈的丢包率，就可以做带宽估算；
+
+基于丢包的拥塞控制比较简单，其基本思想是根据丢包的多少来判断网络的拥塞程度，丢包越多则认为网络越拥塞，那么我们就要降低发送速率来缓解网络拥塞；如果没有丢包，这说明网络状况很好，这时候就可以提高发送码率，向上探测是否有更多的带宽可用。
+
+WebRTC通过RTCP协议的Receive Report反馈包来获取接收端的丢包率。Receive Report包中有一个lost fraction字段，包含了接收端的丢包率。
+
+当丢包率大于10%时则认为网络有拥塞，此时根据丢包率降低带宽，丢包率越高带宽降的越多；当丢包率小于2%时，则认为网络状况很好，此时向上提高5%的带宽以探测是否有更多带宽可用；2%到10%之间的丢包率，则会保持当前码率不变，这样可以避免一些网络固有的丢包被错判为网络拥塞而导致降低码率，而这部分的丢包则需要通过其他的如NACK或FEC等手段来恢复。
+
+（4）基于延迟的拥塞控制
+
+WebRTC使用延迟梯度来判断网络的拥塞程度，为此WebRTC扩展了RTCP协议，其中最主要的是增加了Transport-CC Feedback，该包携带了接收端接收到的每个媒体包的到达时间。
+
+WebRTC扩展了RTP/RTCP协议，其一是增加了RTP扩展头部，添加了一个session级别的sequence number, 目的是基于一个session做反馈信息的统计，而不紧紧是一条音频流或视频流；其二是增加了一个RTCP反馈信息transport-cc-feedback，该消息负责反馈接受端收到的所有媒体包的到达时间。接收端根据包间的接受延迟和发送间隔可以计算出延迟梯度，从而估计带宽。
+
+（5）到达时间滤波器
+
+延迟梯度可以作为判断网络拥塞的依据。用两个数据包的到达时间间隔减去他们的发送时间间隔，就可以得到一个延迟的变化，这里我们称这个延迟的变化为单向延迟梯度。
+
+到达时间滤波器计算每一组数据包的延迟梯度。
+
+（6）过载检测器
+
+过载检测器的主要工作有两部分，一部分是确定阈值的大小，另一部分就是依据延迟梯度和阈值的判断，估计出当前的网络状态，一共有三种网络状态: overuse underuse normal。
+
+阈值是根据延迟梯度自适应动态变化的。
+
+（7）速率控制器
+
+速率控制器主要实现了一个状态机的变迁，并根据当前状态来计算当前的可用码率。
+
+速率控制器根据过载探测器输出的信号（overuse underuse normal）驱动速率控制状态机， 从而估算出当前的网络速率。
+
+最后，将基于丢包的码率估计值和基于延迟的码率估计值作比较，其中最小的码率估价值将作为最终的发送码率。
+
+2、[WebRTC：数据传输相关协议简介 (juejin.cn)](https://juejin.cn/post/6908953140758839303)
+
+（1）加密通道建立
+
+对WebRTC应用来说，不管是音视频数据，还是自定义应用数据，都要求基于加密的信道进行传输。DTLS 有点类似 TLS，在UDP的基础上，实现信道的加密。
+
+DTLS的主要用途，就是让通信双方协商密钥，用来对数据进行加解密。
+
+（2）音视频数据传输
+
+RTP（Realtime Transport Protocol）：实时传输协议，主要用来传输对实时性要求比较高的数据，比如音视频数据。
+
+RTCP（RTP Trasport Control Protocol）：RTP传输控制协议，跟RTP在同一份RFC中定义，主要用来监控数据传输的质量，并给予数据发送方反馈。
+
+SRTP、SRTCP，分别在RTP、RTCP的基础上加了个S(Secure)，表示安全的意思，这个就是DTLS做的事情了。
+
+（3）自定义应用数据传输
+
+SCTP（Stream Control Transmission Protocol）：流控制传输协议。
+
+RTP/RTCP主要用来传输音视频，是为了流媒体设计的。而对于自定义应用数据的传输，WebRTC中使用了SCTP协议。
+
+SCTP依赖DTLS建立的加密信道。
 
 ## 阅读计划
 
+[百度App网络深度优化系列《三》弱网优化 (juejin.cn)](https://juejin.cn/post/6844904033723875342#heading-27)
+
+[怎么让不可靠的UDP可靠？-InfoQ](https://www.infoq.cn/article/how-to-make-udp-reliable/)
+
+[WebRTC通话质量调优：三个弱网模拟测试工具的使用与对比 (juejin.cn)](https://juejin.cn/post/6844903715237789709)
+
+[聊聊WebRTC网关服务器1：如何选择服务端端口方案？ - 云信博客 (163.com)](https://yunxin.163.com/blog/webrtc-1/?from=juejin&utm_source=juejin&utm_medium=article&utm_campaign=seo&utm_content=video-tech-19)
+
+[谈谈网络通信中的 ACK、NACK 和 REX - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/104322256)
+
+[QUIC 将会是 WebRTC 的未来么？ (juejin.cn)](https://juejin.cn/post/6844903731754958862)
+
+[WebRTC 学习资源，以及相关 Demo - WebRTC 讨论区 / 资源分享 - RTC开发者社区-WebRTC中文论坛|RTC实时技术论坛 (rtcdeveloper.com)](https://rtcdeveloper.com/t/topic/435)
