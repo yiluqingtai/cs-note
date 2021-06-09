@@ -30,6 +30,54 @@
 
 （4）CDN的核心价值是将数字内容智能分发到离用户更近的节点，进而提升整体分发效率，降低网络延时、节省带宽资源，其与生俱来的边缘节点属性，低延时和低带宽，令其在边缘计算市场具备先发优势，CDN本身就是边缘计算的雏形。CDN玩家凭借着此前在边缘节点和边缘技术上的积累，也成为边缘计算的核心玩家。一方面，CDN玩家利用边缘计算可以进一步降低成本和智能分发，另一方面，CDN玩家在数据分发基础上，开放计算存储安全等一系列服务。
 
+2、**ZooKeeper**：[可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
+
+（1）Zookeeper概览
+
+ZooKeeper 是一个开源的分布式协调服务。
+
+ZooKeeper 的设计目标是将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。
+
+ZooKeeper 是一个典型的分布式数据一致性解决方案，分布式应用程序可以基于 ZooKeeper 实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。
+
+Zookeeper 一个最常用的使用场景就是用于担任服务生产者和服务消费者的注册中心。 
+
+Zookeeper一般采用集群服务，集群机器数量为奇数台。
+
+ZooKeeper两大作用：集群管理和注册中心。
+
+（2）Zookeeper重要概念
+
+ZooKeeper  本身就是一个分布式程序（只要半数以上节点存活，ZooKeeper  就能正常服务）。
+
+为了保证高可用，最好是以集群形态来部署 ZooKeeper。
+
+ZooKeeper  将数据保存在内存中，这也就保证了高吞吐量和低延迟。
+
+ZooKeeper 是高性能的。 在“读”多于“写”的应用程序中尤其地高性能，因为“写”会导致所有的服务器间同步状态。
+
+ZooKeeper有临时节点的概念。 当创建临时节点的客户端会话一直保持活动，瞬时节点就一直存在。而当会话终结时，瞬时节点被删除。持久节点是指一旦这个ZNode被创建了，除非主动进行ZNode的移除操作，否则这个ZNode将一直保存在Zookeeper上。
+
+ZooKeeper 底层其实只提供了两个功能：①管理（存储、读取）用户程序提交的数据；②为用户程序提交数据节点监听服务。
+
+（3）ZooKeeper集群角色
+
+Leader：负责进行投票的发起和决议，更新系统状态；
+
+Follower：用于接收客户请求并向客户端返回结果，在选举过程中参与投票；
+
+Observer：可以接受客户端连接，将写请求转发给Leader，但Observer不参加投票过程，只同步Leader的状态，Observer的目的是为了扩展系统，提高读取速度。
+
+3、**ZooKeeper**：[运维部署-Zookeeper (juejin.cn)](https://juejin.cn/post/6844904024144085005#heading-10)
+
+（1）ZooKeeper下载
+
+```
+
+```
+
+
+
 ## 待学习
 
 1、zookeeper
@@ -44,8 +92,20 @@
 
 [面试前必须要知道的Redis面试题 (qq.com)](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484609&idx=1&sn=4c053236699fde3c2db1241ab497487b&chksm=ebd745c0dca0ccd682e91938fc30fa947df1385b06d6ae9bb52514967b0736c66684db2f1ac9&token=177635168&lang=zh_CN#rd)
 
+[美团二面：Redis与MySQL双写一致性如何保证？ (qq.com)](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247499396&idx=1&sn=87fbb610b56969c333b8f352330a30ae&chksm=c04ae9daf73d60cce50aa317229f808fc84566f2e21ef995350020d2b779ec21aa17ab106753&scene=132#wechat_redirect)
+
 6、消息队列
 
 [什么是消息队列？ (juejin.cn)](https://juejin.cn/post/6844903817348136968)
 
 7、零拷贝原理
+
+8、dubbo
+
+9、nginx和keep-alive
+10、中间件
+
+[不会还有人不知道中间件吧？ (juejin.cn)](https://juejin.cn/post/6882932453674057735)
+
+11、分布式锁
+
