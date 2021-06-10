@@ -30,7 +30,9 @@
 
 （4）CDN的核心价值是将数字内容智能分发到离用户更近的节点，进而提升整体分发效率，降低网络延时、节省带宽资源，其与生俱来的边缘节点属性，低延时和低带宽，令其在边缘计算市场具备先发优势，CDN本身就是边缘计算的雏形。CDN玩家凭借着此前在边缘节点和边缘技术上的积累，也成为边缘计算的核心玩家。一方面，CDN玩家利用边缘计算可以进一步降低成本和智能分发，另一方面，CDN玩家在数据分发基础上，开放计算存储安全等一系列服务。
 
-2、**ZooKeeper**：[可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
+## 6月9日
+
+1、**ZooKeeper**：[可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
 
 （1）Zookeeper概览
 
@@ -68,13 +70,102 @@ Follower：用于接收客户请求并向客户端返回结果，在选举过程
 
 Observer：可以接受客户端连接，将写请求转发给Leader，但Observer不参加投票过程，只同步Leader的状态，Observer的目的是为了扩展系统，提高读取速度。
 
-3、**ZooKeeper**：[运维部署-Zookeeper (juejin.cn)](https://juejin.cn/post/6844904024144085005#heading-10)
+## 6月10日
+
+1、[什么是TLS DTLS和SRTP？ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/89028639)
+
+（1）TLS 传输层安全性协议
+
+安全套接层SSL的前身，利用非对称加密演算来对通信方做身份认证，之后交换对称密钥作为会谈密钥（Session key）。这个会谈密钥是用来将通信两方交换的数据做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听。
+
+（2）DTLS 数据报传输层安全性协议
+
+它基于传输层安全性（TLS）协议，该协议为基于计算机的通信网络提供安全性。 DTSL和TLS之间的主要区别在于DTLS使用UDP，而TLS使用TCP。 它可用于Web浏览，邮件，即时消息传递和VoIP。 DTSL是与SRTP一起用于WebRTC技术的安全协议之一。
+
+（3）SRTP 安全实时传输协议
+
+SRTP是在实时传输协议(Real-time Transport Protocol)基础上所定义的一个协议，旨在为单播和多播应用程序中的实时传输协议的数据提供加密、消息认证、完整性保证和重放保护安全实时传输协议。
+
+2、**ZooKeeper**：[运维部署-Zookeeper (juejin.cn)](https://juejin.cn/post/6844904024144085005#heading-10)
+
+需求环境：jdk
 
 （1）ZooKeeper下载
 
+[Apache Download Mirrors](https://www.apache.org/dyn/closer.lua/zookeeper/zookeeper-3.6.3/apache-zookeeper-3.6.3-bin.tar.gz)
+
+```shell
+wget -c  https://mirror-hk.koddos.net/apache/zookeeper/zookeeper-3.6.3/apache-zookeeper-3.6.3-bin.tar.gz #下载
+tar -zxv -f apache-zookeeper-3.6.3-bin.tar.gz #解压
 ```
 
+（2）zookeeper目录
+
+```shell
+# zookeeper配置目录
+conf
+├── configuration.xsl
+├── log4j.properties
+└── zoo_sample.cfg 
+
+# zookeeper脚本目录
+bin
+├── README.txt
+├── zkCleanup.sh
+├── zkCli.cmd
+├── zkCli.sh
+├── zkEnv.cmd
+├── zkEnv.sh
+├── zkServer.cmd
+├── zkServer-initialize.sh
+├── zkServer.sh
+├── zkSnapShotToolkit.cmd
+├── zkSnapShotToolkit.sh
+├── zkTxnLogToolkit.cmd
+└── zkTxnLogToolkit.sh
 ```
+
+脚本功能
+
+| 脚本      | 说明                                                  |
+| --------- | ----------------------------------------------------- |
+| zkCleanup | 清理Zookeeper历史数据, 包括事务日志文件和快照数据文件 |
+| zkEnv     | 设置Zookeeper的环境变量                               |
+| zkServer  | Zookeeper服务器的启动、停止、重启脚本                 |
+| zkCli     | Zookeeper的命令行客户端                               |
+
+（3）zookeeper单机环境搭建
+
+创建服务器标识文件
+
+```shell
+mkdir data
+echo 1 > data/myid # 标识当前实例的标识值为1
+```
+
+修改zoo.cfg文件并启动（修改dataDir目录和增加服务通讯标识）
+
+```shell
+# The number of milliseconds of each tick
+tickTime=2000
+# The number of ticks that the initial
+# synchronization phase can take
+initLimit=10
+# The number of ticks that can pass between
+# sending a request and getting an acknowledgement
+syncLimit=5
+# the directory where the snapshot is stored.
+# do not use /tmp for storage, /tmp here is just
+# example sakes.
+dataDir=/home/wjy/Library/apache-zookeeper-3.6.3-bin/data
+# the port at which the clients will connect
+clientPort=2181
+# 配置server节点
+server.1 = 127.0.0.1:2888:3888
+# the maximum number of client co
+```
+
+启动zookeeper
 
 
 
