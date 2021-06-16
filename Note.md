@@ -167,7 +167,132 @@ server.1 = 127.0.0.1:2888:3888
 
 启动zookeeper
 
+## 6月16日
 
+1、**基础：**[函数调用过程中栈到底是怎么压入和弹出的？ - 一八七四的回答 - 知乎](https://www.zhihu.com/question/22444939/answer/22200552) 
+
+（1）一个函数调用另一个函数，会压入原来ebp的值, 参数, 以及调用函数的下一个指令地址。
+
+（2）在调用一个函数时, 编译器就计算好函数需要的空间, 然后esp = ebp-需要的空间, 通过ebp+偏移量来访问. 在函数里调用另外一个函数时, 原来fun的ebp值压栈。
+
+（3）ESP：栈指针寄存器(extended stack pointer)，其内存放着一个指针，该指针永远指向系统栈最上面一个栈帧的栈顶。
+
+（4）EBP：基址指针寄存器(extended base pointer)，其内存放着一个指针，该指针永远指向系统栈最上面一个栈帧的底部。
+
+（5）函数栈帧：ESP和EBP之间的内存空间为当前栈帧，EBP标识了当前栈帧的底部，ESP标识了当前栈帧的顶部。
+
+（6）EIP：指令寄存器(extended instruction pointer)， 其内存放着一个指针，该指针永远指向下一条待执行的指令地址（返回地址）。
+
+（7）函数调用步骤
+
+压入前栈帧的EBP；
+
+栈帧调整：ESP值装入EBP，更新栈帧底部，然后将ESP减去所需空间大小，抬高栈顶；
+
+压入调用函数的局部变量；
+
+压入调用函数的参数（从右往左顺序压入）；
+
+压入返回地址（调用函数后下一条待执行的指令地址）；
+
+代码区跳转：处理器从当前代码区跳转到被调用函数的入口处；
+
+2、**ffmpeg：**[ffmpeg开发播放器学习笔记 - Hello FFmpeg (juejin.cn)](https://juejin.cn/post/6917170943676645390#heading-9)
+
+ffmpeg初始化流程
+
+（1）打开文件/数据流：AVFormatContext,保存了音视频文件信息
+
+```
+int ret = avformat_open_input(&formatContext, url, NULL, NULL);
+```
+
+（2）找到音、视频流信息：AVFormatContext，读取少量的数据包方便找到精确的音视频流信息,这些包会被缓存起来,解码的时候不会重复读取。
+
+```
+ret = avformat_find_stream_info(formatContext, NULL);
+```
+
+（3）遍历流信息：从已经读取到的流信息中遍历查找到音频与视频的流信息
+
+（4）初始化音视频解码器：从AVStream中可以读取到解码器的参数信息,这个结构体里包括了视频的宽高、FPS、视频长度等信息；如果是音频它包括了采样率、声道、音频数据包、音频格式、解码器等信息。
+
+```c
+AVCodecParameters *codecParameters = stream->codecpar; // AVCodec定义了解码器的功能,首先找到解码对应流信息的解码器
+AVCodecContext *codecContext = avcodec_alloc_context3(codec); // 找到解码器之后,需要实例化一个解码器上下文
+```
+
+AVCodec定义了功能,AVCodecContext结构表示程序运行的当前 AVCodec 使用的上下文，着重于所有 AVCodec 共有的属性(并且是在程序运行时才能确定其值)和关联其他结构的字段。AVCodecContext可以看作是AVCodec的一个具体实体表现，后续的解码操作都使用AVCodecContext。AVCodecContext不仅包含了AVCodec定义的功能,还需要通过特定的参数来完成功能的调用，这些参数存储在AVCodecParameters中。
+
+```c
+avcodec_parameters_to_context(codecContext, codecParameters); // 初始化完成之后还需要将流信息参数填充到AVCodecContext。
+avcodec_open2(codecContext, codec, NULL); // AVCodecContext默认是关闭的,在解码使用前需要先打开
+```
+
+3、**ffmpeg：**[给初学者的 20 多个 FFmpeg 命令示例 (juejin.cn)](https://juejin.cn/post/6844903859236651022#heading-8)
+
+FFmpeg典型语法：
+
+```c
+ffmpeg [全局选项] {[输入文件选项] -i 输入_url_地址} ...
+ {[输出文件选项] 输出_url_地址} ...
+```
+
+（1）获取音频/视频文件信息
+
+```
+ffmpeg -i video.mp4
+```
+
+（2）转换视频文件到不同的格式
+
+```
+ffmpeg -i video.mp4 video.avi
+```
+
+（3）转换视频文件到音频文件
+
+```c
+ffmpeg -i input.mp4 -vn output.mp3  //-vn – 表明我们已经在输出文件中禁用视频录制。
+```
+
+（4）更改视频文件的分辨率
+
+```
+ffmpeg -i input.mp4 -s 1280x720 -c:a copy output.mp4
+```
+
+（5）压缩视频文件
+
+```
+ffmpeg -i input.mp4 -vf scale=1280:-1 -c:v libx264 -preset veryslow -crf 24 output.mp4
+```
+
+-c 后面需要跟 :v或者:a 用于说明是音频编码还是视频编码
+
+（6）ffmpeg命令行很多，不需要全部记住，记住语法特点和几个常用的即可
+
+4、**ffmpeg：**[FFmpeg 视频处理入门教程 - 阮一峰的网络日志 (ruanyifeng.com)](http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html)
+
+常用命令行参数
+
+（1）-c：指定编码器
+
+（2）-c copy：直接复制，不经过重新编码（这样比较快）
+
+（3）-c:v：指定视频编码器
+
+（4）-c:a：指定音频编码器
+
+（5）-i：指定输入文件
+
+（6）-an：去除音频流
+
+（7）-vn： 去除视频流
+
+（8）-preset：指定输出的视频质量，会影响文件的生成速度，有以下几个可用的值 ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow。
+
+（9）-y：不经过确认，输出时直接覆盖同名文件。
 
 ## 待学习
 
@@ -200,3 +325,22 @@ server.1 = 127.0.0.1:2888:3888
 
 11、分布式锁
 
+12、函数调用
+
+[介绍 · 函数调用原理 (coder.cat)](https://gitbook.coder.cat/function-call-principle/)
+
+13、gdb
+
+14、fopen和open区别
+
+15、awk和grep的使用、格式化输出
+
+16、ffmpeg
+
+[leandromoreira/ffmpeg-libav-tutorial: FFmpeg libav tutorial - learn how media works from basic to transmuxing, transcoding and more (github.com)](https://github.com/leandromoreira/ffmpeg-libav-tutorial#chapter-3---transcoding)
+
+[FFmpeg Encoding and Editing Course (slhck.info)](http://slhck.info/ffmpeg-encoding-course/#/)
+
+[Lei Xiaohua's learning resource about video/audio technics (leixiaohua1020.github.io)](http://leixiaohua1020.github.io/#ffmpeg-development-examples)
+
+[从零开始仿写一个抖音App——基于FFmpeg的极简视频播放器 (juejin.cn)](https://juejin.cn/post/6844903734238003208#heading-7)
