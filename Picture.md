@@ -68,8 +68,12 @@
 
 ### 编码流程
 
+[即时通讯音视频开发（一）：视频编解码之理论概述-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-228-1-1.html)
+
 ![](https://i.loli.net/2021/06/16/bmMHdfwnOacjoKk.png)
 
 ### 编解码流程
+
+[即时通讯音视频开发（一）：视频编解码之理论概述-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-228-1-1.html)
 
 ![](https://i.loli.net/2021/06/16/EiO5lcMexJyhF4v.png)

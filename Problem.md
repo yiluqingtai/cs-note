@@ -1,18 +1,46 @@
 ## 6月9日
 
-1、虚拟机无法ping通主机
+### 虚拟机无法ping通主机
 
 参考：[防火墙设置：虚拟机ping不通主机，但是主机可以ping通虚拟机_IT人的日常-CSDN博客](https://blog.csdn.net/u014594922/article/details/53426225)
 
 解决方案：控制面板-防火墙-高级设置-入站规则-文件和打印机共享（回显请求-ICMPv4，公用）-启用规则
 
-## 6月13日
+## 6月18日
 
-1、typora直接添加图片到图床
+### Jetbrain软件激活
 
-参考：[史上最强markdown编辑器typora终于支持图床功能了！！！ - 夏2同学的文章 - 知乎](https://zhuanlan.zhihu.com/p/137310314)
+https://shimo.im/docs/WY3hd8Jt8KHgvVty/read
 
-图床网站：[Image Upload - SM.MS - Simple Free Image Hosting](https://sm.ms/)
+### Linux环境变量配置
 
-图床管理：[PicGo (molunerfinn.com)](https://molunerfinn.com/PicGo/)
+[【linux】Linux下环境变量（.bash_profile和.bashrc的区别） - 望着小月亮 - 博客园 (cnblogs.com)](https://www.cnblogs.com/triple-y/p/11107133.html)
+
+（1）修改/etc/profile文件
+
+推荐使用这种方法，因为所有用户的shell都有权使用这些环境变量，缺点是可能会给系统带来安全性问题。 这里是针对所有的用户的,所有的shell;
+
+（2）修改.bashrc文件
+
+这种方法更为安全，它可以把使用这些环境变量的权限控制到用户级别,这里是针对某一个特定的用户，如果需要给某个用户权限
+使用这些环境变量，只需要修改其个人用户主目录下的.bashrc文件就可以了。
+
+（3）git代理配置
+
+```shell
+# 方法一
+git config --global --edit
+# 方法二
+vim ~/.gitconfig
+# 方法三
+git config --global https.proxy ip:port
+git config --global http.proxy ip:port
+```
+
+（4）网络代理配置
+
+```shell
+export http_proxy=ip:port
+export https_proxy=ip:port
+```
 

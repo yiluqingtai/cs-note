@@ -742,6 +742,12 @@ FEC 包不需要，意义不大，FEC 的目的是为了减少重传而增加的
 
 对感兴趣区域（Region of Interesting，ROI）进行特殊处理。
 
+## 6月18日
+
+1、[即时通讯音视频开发（三）：视频编解码之编码基础-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-232-1-1.html)
+
+
+
 ## 阅读计划
 
 [与WebRTC实时通信 (google.com)](https://codelabs.developers.google.com/codelabs/webrtc-web/#0)
