@@ -1,4 +1,4 @@
-## 1、WebRTC架构
+## V1、WebRTC架构
 ### 1.1 整体架构
 从下往上理解：
 
@@ -31,7 +31,7 @@ webrtc终端通信采用ice协议和sdp协议；
 webrtc将逻辑功能独立、内聚性、复用性强的部分单独抽象为模块，放在modules目录下，包括流控、音视频设备，音视频解码器等。
 
 ### 1.3 源码分析
-### 1.3.1 编译系统
+#### 1.3.1 编译系统
 
 1、gn简介
 
@@ -81,7 +81,7 @@ gn概览，包括命令行使用和gn文件的语法，很好的入门材料。
 
 ninja官方文档。
 
-### 1.3.2 代码
+#### 1.3.2 代码
 
 1、Server
 
@@ -405,7 +405,85 @@ Selective Forwarding Unit；
 
 turn/stun 服务器例子，可以参考学习。
 
-## 5、WebRTC相关问题及解答
+## 5、WebRTC APIs 官方示例
+
+**参考**
+
+[WebRTC samples](https://webrtc.github.io/samples/)
+
+### 5.1 getUserMedia
+
+1、基本的getUserMedia样例
+
+使用getUserMedia() API在一个视频元素中显示视频流；
+
+效果：点击Open camera按钮后显示摄像头抓取的视频。
+
+```html
+<!--html核心代码：视频窗口和按钮-->
+<video id="gum-local" autoplay playsinline></video>
+<button id="showVideo">Open camera</button>
+```
+
+```javascript
+// 1、添加按钮点击事件
+document.querySelector("#showVideo").addEventListener('click', e => init(e));
+// 2、音频和视频选择
+const constraints = window.constraints = {
+	audio: false;
+    video: true;
+};
+// 3、获取流并处理
+async function init(e) {
+    try {
+		const stream = await navigator.mediaDevices.getUserMedia(constraints);   
+        handleSuccess(stream);
+        e.target.disabled = true;
+    } catch(e) {
+        handleError(e);
+    }
+}
+// 4、处理并显示视频流
+function handleSuccess(stream) {
+    const video = document.querySelector('video');
+    window.stream = stream;
+    video.srcObject = stream;
+}
+```
+
+## 6、WebRTC源码
+
+### 6.1 p2p
+
+主要是实现 candidate 收集，NAT 穿越。
+
+#### 6.1.1 turn_server
+
+1、TurnServer类：turn服务器打开两个端口，一个对内部客户端，一个对外部转发；AddInternalServerSocket监听内部连接请求，AddInternalSocket监听内部客户端发送的包，setExternalSocketFactory使用工厂方式创建对外转发端口；
+
+**参考**
+
+1、[WebRTC TURN协议初识及turnserver实践 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/71025431)
+
+turn server的原理详细解释。
+
+2、[(1条消息) WebRTC源码中turnserver的使用方法_安晓辉生涯——聚焦程序员的职业规划与成长-CSDN博客](https://blog.csdn.net/foruok/article/details/60769621)
+
+webrtc的turn server实例的使用方法。
+
+3、[TURN服务器  | WebRTC](https://webrtc.org/getting-started/turn-server)
+
+一份官方说明。搭建好turn服务器后，在浏览器代码中配置iceConfiguration，设置turn服务器的url，用户名和密码，就可以根据此配置来建立RTCPeerConnection。
+
+4、[How to set up and configure your own TURN server using Coturn (gabrieltanner.org)](https://gabrieltanner.org/blog/turn-server)
+
+如何使用coturn搭建turn服务器并检测。
+
+5、[node.js - How do I configure WebRTC to connect to my TURN server? - Stack Overflow](https://stackoverflow.com/questions/61822108/how-do-i-configure-webrtc-to-connect-to-my-turn-server)
+
+一个有趣的问题，提问者配置了iceConfiguration，但是忘记了在建立RTCPeerConnection里加入这个配置了。
+
+## 7、WebRTC相关问题及解答
 
 1、TURN协议的工作原理以及阶段
 
@@ -465,8 +543,8 @@ a=rtpmap：描述媒体流支持的格式
 
 a=ice-frag, a=ice-pwd：描述ICE连接过程中使用的用户名和密码，防止ICE连接过程被攻击
 
-## 6、WebRTC参考资料
-### 6.1 博客资料
+## 8、WebRTC参考资料
+### 8.1 博客资料
 
 1、[[WebRTC架构分析]源码目录结构介绍](https://zhuanlan.zhihu.com/p/81361664)
 
@@ -514,7 +592,7 @@ mesh、SFU和MCU三种服务器架构的介绍。
 
 14、[WebRTC源码研究（1）WebRTC架构](https://juejin.cn/post/6844904199684096007)
 
-### 6.2 WebRTC源码
+### 8.2 WebRTC源码
 
 WebRTC核心代码30多M，但包含的第三方库10G左右；需要重点研读的是WebRTC核心代码；
 
@@ -526,7 +604,7 @@ Api文件夹中封装了很多供浏览器Js使用的API，也是一个学习的
 
 其他的文件夹在学习examples和api的途中再分别研读；
 
-### 6.3 书籍
+### 8.3 书籍
 
 1、 WebRTC native 开发实战
 
@@ -540,7 +618,7 @@ Api文件夹中封装了很多供浏览器Js使用的API，也是一个学习的
 
 这本书从目录来看内容很不错，有助于了解webrtc的API，但是其web端使用React，移动端使用Flutter，后台使用Go，这些都是我不熟悉的技术，所以目前还无法看下去。
 
-### 6.4 视频课程
+### 8.4 视频课程
 
 1、李超课程《WebRTC入门》
 
@@ -552,7 +630,7 @@ Api文件夹中封装了很多供浏览器Js使用的API，也是一个学习的
 
 流媒体服务器的种类很多，首先根据这个课程和一些文章了解流媒体服务器的异同，再重点学习mediasoup，包括其部署和源码。
 
-### 6.5 WebRTC官方文档
+### 8.5 WebRTC官方文档
 
 1、[external/webrtc - Git at Google (googlesource.com)](https://chromium.googlesource.com/external/webrtc)
 
