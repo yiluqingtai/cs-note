@@ -294,6 +294,62 @@ ffmpeg -i input.mp4 -vf scale=1280:-1 -c:v libx264 -preset veryslow -crf 24 outp
 
 （9）-y：不经过确认，输出时直接覆盖同名文件。
 
+## 6月21日
+
+1、**HTTP：**[Http协议报文格式 - 星朝 - 博客园 (cnblogs.com)](https://www.cnblogs.com/jpfss/p/10984966.html)
+
+（1）总结了HTTP的请求方式
+
+（2）总结HTTP请求头和响应头信息
+
+（3）总结了响应码
+
+2、**cookie：**[什么是cookie,token和session?它们之间有什么关系？ - 心谭的回答 - 知乎](https://www.zhihu.com/question/353373715/answer/974583248)
+
+（1）HTTP 协议是无状态的。但是随着 web 应用的发展，越来越多的场景需要标识用户身份。例如：单点登陆、购物车等等。而 cookie、session 与 token，就是为了实现带有状态的“会话控制”。
+
+（2）Cookie
+
+cookie 是以 K-V 形式，存储在浏览器中一种数据。它可以在服务端设置，也可以在浏览器端用 js 代码设置。
+
+它拥有 maxAge、domain、path 等属性，借助这些属性，可以实现父子域名之间的数据传递。
+
+浏览器端：通过 js 代码来设置，例如 `document.cookie = "firstName=dongyuanxin; path=/`
+
+服务器端：通过给 Http Response Headers 中的`Set-Cookie`字段赋值，来设置 cookie。客户端接收到`Set-Cookie`字段后，将其存储在浏览器中。
+
+整体流程（购买商品）：监测到浏览器客户端没有标识用户的 cookie，跳转到登陆界面；用户账号密码登陆，后端验证，成功后，在Set-cookie中设置标识用户的 cookie；登陆成功，保存用户标识的 cookie；购买商品，自动携带用户身份的 cookie，后端验证无误后，购买成功；（服务端不保存cookie，cookie中已经保存了用户信息了，比如用户名密码）
+
+（3）Session
+
+Session 机制准确来说，也是通过 K-V 数据格式来保存状态。其中：Key：也称 SessionID，保存在客户端浏览器。Value：也称“Session”，保存在服务端（服务端保存了SessionID以及Session）。
+
+客户端只需要存储 SessionID。具体映射的数据结构放在了服务端，因此跳出了仅仅浏览器 cookie 只可以存储 string 类型的限制。
+
+客户端存储 SessionID，还是需要借助 cookie 来实现。
+
+客户端发送请求携带SessionID，后端检验后返回Session中信息。
+
+session 传输数据少，数据结构灵活：相较于 cookie 来说，session 存储在服务端，客户端仅保留换取 session 的用户凭证。因此传输数据量小，速度快。
+
+session 更安全：检验、生成、验证都是在服务端按照指定规则完成，而 cookie 可能被客户端通过 js 代码篡改。
+
+session 的不足：服务器是有状态的。多台后端服务器无法共享 session。解决方法是，专门准备一台 session 服务器，关于 session 的所有操作都交给它来调用。而服务器之间的调用，可以走内网 ip，走 RPC 调用（不走 http）。
+
+（4）Token
+
+对于 session 来说，服务器是有状态的。这个事情就很麻烦，尤其是在分布式部署服务的时候，需要共享服务器之间的状态。总不能让用户不停重复登陆吧？虽然专门准备一个服务器用来处理状态是可行的，但是能不能让服务器变成无状态的，还不能像单纯 cookie 那么蹩脚？
+
+整体流程：用户尝试登陆；登陆成功后，后端依靠加密算法，将凭证生成 token，返回给客户端；客户端保存 token，每次发送请求时，携带 token；后端再接收到带有 token 的请求时，验证 token 的有效性；
+
+生成：token 的组成为：${user}.${HS256(user, secret)}。其中，secret 是加密需要的密钥，保存在服务端，不能泄漏。HS256 是加密算法，使用 RS256、HS512 也可以。
+
+验证：将请求中携带的 token 按照.分开，得到payload和sig。用服务器密钥对payload进行加密，将加密结果和sig比较，如果相同，那么通过验证。
+
+服务器变成无状态了，实现分布式 web 应用授权。
+
+安全性更高，密钥保存在服务器。若密钥被窃取，可以统一重新下发密钥。
+
 ## 待学习
 
 1、zookeeper
@@ -344,3 +400,7 @@ ffmpeg -i input.mp4 -vf scale=1280:-1 -c:v libx264 -preset veryslow -crf 24 outp
 [Lei Xiaohua's learning resource about video/audio technics (leixiaohua1020.github.io)](http://leixiaohua1020.github.io/#ffmpeg-development-examples)
 
 [从零开始仿写一个抖音App——基于FFmpeg的极简视频播放器 (juejin.cn)](https://juejin.cn/post/6844903734238003208#heading-7)
+
+17、单点登录
+
+[session多端登陆，共享怎么做的啊？ - SegmentFault 思否](https://segmentfault.com/q/1010000005788476)

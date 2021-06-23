@@ -77,3 +77,13 @@
 [即时通讯音视频开发（一）：视频编解码之理论概述-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-228-1-1.html)
 
 ![](https://i.loli.net/2021/06/16/EiO5lcMexJyhF4v.png)
+
+## 6月21日
+
+### session运行流程
+
+![img](https://pic1.zhimg.com/80/v2-f6980fbd722e54c4519687ff270e7152_1440w.jpg?source=1940ef5c)
+
+### token运行流程
+
+![img](https://pic4.zhimg.com/80/v2-8acae7d043476c47143a9a4b5e2782f9_1440w.jpg?source=1940ef5c)
