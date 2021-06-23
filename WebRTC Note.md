@@ -742,11 +742,91 @@ FEC 包不需要，意义不大，FEC 的目的是为了减少重传而增加的
 
 对感兴趣区域（Region of Interesting，ROI）进行特殊处理。
 
-## 6月18日
+## 6月23日
 
 1、[即时通讯音视频开发（三）：视频编解码之编码基础-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-232-1-1.html)
 
+（1）视频编解码关键技术
 
+预测：通过帧内预测和帧间预测降低视频图像的空间冗余和时间冗余。
+
+变换：通过从时域到频域的变换，去除相邻数据之间的相关性，即去除空间冗余。
+
+量化：通过用更粗糙的数据表示精细的数据来降低编码的数据量，或者通过去除人眼不敏感的信息来降低编码数据量。
+
+扫描：将二维变换量化数据重新组织成一维的数据序列。
+
+熵编码：根据待编码数据的概率特性减少编码冗余。
+
+（2）预测
+
+空间预测：利用图像空间相邻像素的相关性来预测的方法；利用当前编码块周围已经重构出来的像素预测当前块。
+
+时间预测：利用时间上相邻图像的相关性来预测的方法；运动估计（Motion Estimation，ME），运动补偿（Motion Compensation，MC）。
+
+（3）帧内预测
+
+I帧图像的每个宏块都采用帧内（Intra）预测编码模式。
+
+宏块分成8x8或者4x4块，对每个块采用帧内预测编码，称作Intra8x8或者Intra4x4。
+
+帧内预测有多个预测方向：水平，垂直，左下，右上。
+
+（4）量化
+
+量化原理：将含有大量的数据集合映射到含有少量的数据集合中。
+
+一般情况下量化后高频部分包含大量的零系数。
+
+（5）码率控制
+
+CBR（Constant Bit Rate）：比特率稳定，但图像质量变化大。
+
+VBR（Variable Bit Rate）：比特率波动大，但图像质量稳定。
+
+2、[即时通讯音视频开发（四）：视频编解码之预测技术介绍-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-235-1-1.html)
+
+这篇文章基本没有解释，比较专业，目前看不懂。
+
+3、[与WebRTC实时通信 (google.com)](https://codelabs.developers.google.com/codelabs/webrtc-web/#0)
+
+（1）谷歌官方的codelab，演示与webrtc通信的过程。
+
+（2）介绍
+
+A、JavaScript API：
+
+getUserMedia() ：捕获音频和视频。
+
+MediaRecorder ：录制音频和视频。
+
+RTCPeerConnection ：在用户之间流音频和视频。
+
+RTCDataChannel ：用户之间的流数据。
+
+B、信令
+
+WebRTC使用RTCPeerConnection在浏览器之间通信流数据，但还需要一种机制来协调通信并发送控制消息，该过程称为信令。 
+
+C、STUN和TURN
+
+客户端应用程序需要遍历NAT网关和防火墙，而对等网络则需要回退，以防直接连接失败。
+
+作为此过程的一部分，在对等通信失败的情况下，WebRTC API使用STUN服务器获取计算机的IP地址，并使用TURN服务器充当中继服务器。
+
+（3）概述
+
+构建一个应用程序以获取视频并使用您的网络摄像头拍摄快照，并通过WebRTC进行点对点共享。
+
+（4）获取示例代码
+
+使用web server for chrome，它可以作为一个文件服务器，提供本地文件夹的http访问服务。
+
+（5）从网络摄像头获取流视频
+
+在工作目录中的index.html中添加一个video元素和一个script元素；
+
+js代码中设置约束，使用getUserMedia API获取视频流，并呈现；
 
 ## 阅读计划
 
@@ -777,3 +857,13 @@ FEC 包不需要，意义不大，FEC 的目的是为了减少重传而增加的
 [Browser APIs and Protocols: WebRTC - High Performance Browser Networking (O'Reilly) (hpbn.co)](https://hpbn.co/webrtc/#standards-and-development-of-webrtc)
 
 [即时通讯音视频开发（二）：视频编解码之数字视频介绍 - 云信博客 (163.com)](http://yunxin.163.com/blog/zhuan-im3-2/)
+
+## 文档库
+
+[muaz-khan/WebRTC-Experiment: WebRTC, WebRTC and WebRTC. Everything here is all about WebRTC!! (github.com)](https://github.com/muaz-khan/WebRTC-Experiment)
+
+WebRTC官方的demo和说明文档，内容非常丰富。
+
+[Build the backend services needed for a WebRTC app: STUN, TURN, and signaling - HTML5 Rocks](https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/)
+
+深入解释了信令服务器的作用和部署。

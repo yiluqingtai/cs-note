@@ -87,3 +87,29 @@
 ### token运行流程
 
 ![img](https://pic4.zhimg.com/80/v2-8acae7d043476c47143a9a4b5e2782f9_1440w.jpg?source=1940ef5c)
+
+## 6月23日
+
+### 帧内预测的四个预测方向
+
+[即时通讯音视频开发（三）：视频编解码之编码基础-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-232-1-1.html)
+
+![](https://i.loli.net/2021/06/23/cq9jyUHrlYhvmVR.png)
+
+### zookeeper架构图
+
+[可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
+
+![](https://i.loli.net/2021/06/23/Y7sKDqApXrEifca.png)
+
+### zookeeper集群角色
+
+[可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
+
+![](https://i.loli.net/2021/06/23/1qW9njzDdLXVxiH.png)
+
+### zookeeper集群角色特点
+
+[可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
+
+![](https://i.loli.net/2021/06/23/nxdB3mLANJTrb9g.png)

@@ -167,6 +167,13 @@ server.1 = 127.0.0.1:2888:3888
 
 启动zookeeper
 
+```shell
+./zkServer.sh start &  #启动
+./zkServer.sh status #查看状态
+```
+
+
+
 ## 6月16日
 
 1、**基础：**[函数调用过程中栈到底是怎么压入和弹出的？ - 一八七四的回答 - 知乎](https://www.zhihu.com/question/22444939/answer/22200552) 
@@ -350,7 +357,56 @@ session 的不足：服务器是有状态的。多台后端服务器无法共享
 
 安全性更高，密钥保存在服务器。若密钥被窃取，可以统一重新下发密钥。
 
+## 6月23日
+
+1、**Java：**[新手ubuntu安装Java环境 (juejin.cn)](https://juejin.cn/post/6844904121439354894)
+
+（1）下载JDK
+
+JDK网址：[Java SE - Downloads | Oracle Technology Network | Oracle Hong Kong SAR, PRC](https://www.oracle.com/hk/java/technologies/javase-downloads.html)
+
+linux下载对应版本压缩包
+
+（2）Linux中创建java目录
+
+在/usr/目录下创建java目录
+
+（3）解压Java安装包
+
+将jdk文件移动到/usr/java
+
+解压jdk文件
+
+（4）配置环境
+
+使用vim打开profile文件/etc/profile
+
+在文件添加如下内容并保存
+
+```shell
+set java environment
+JAVA_HOME=/usr/java/jdk1.8.0_241        
+JRE_HOME=/usr/java/jdk1.8.0_241/jre     
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+```
+
+让修改生效
+
+```shell
+source /etc/profile
+```
+
+（5）测试是否成功
+
+```shell
+java -version
+```
+
 ## 待学习
+
+**工具使用**
 
 1、zookeeper
 
@@ -366,32 +422,15 @@ session 的不足：服务器是有状态的。多台后端服务器无法共享
 
 [美团二面：Redis与MySQL双写一致性如何保证？ (qq.com)](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247499396&idx=1&sn=87fbb610b56969c333b8f352330a30ae&chksm=c04ae9daf73d60cce50aa317229f808fc84566f2e21ef995350020d2b779ec21aa17ab106753&scene=132#wechat_redirect)
 
-6、消息队列
+6、dubbo
 
-[什么是消息队列？ (juejin.cn)](https://juejin.cn/post/6844903817348136968)
+7、nginx和keep-alive
 
-7、零拷贝原理
+8、gdb
 
-8、dubbo
+9、ffmpeg
 
-9、nginx和keep-alive
-10、中间件
-
-[不会还有人不知道中间件吧？ (juejin.cn)](https://juejin.cn/post/6882932453674057735)
-
-11、分布式锁
-
-12、函数调用
-
-[介绍 · 函数调用原理 (coder.cat)](https://gitbook.coder.cat/function-call-principle/)
-
-13、gdb
-
-14、fopen和open区别
-
-15、awk和grep的使用、格式化输出
-
-16、ffmpeg
+将ffmpeg一百行播放器的内容看熟
 
 [leandromoreira/ffmpeg-libav-tutorial: FFmpeg libav tutorial - learn how media works from basic to transmuxing, transcoding and more (github.com)](https://github.com/leandromoreira/ffmpeg-libav-tutorial#chapter-3---transcoding)
 
@@ -401,6 +440,34 @@ session 的不足：服务器是有状态的。多台后端服务器无法共享
 
 [从零开始仿写一个抖音App——基于FFmpeg的极简视频播放器 (juejin.cn)](https://juejin.cn/post/6844903734238003208#heading-7)
 
-17、单点登录
+10、websocket
+
+如何使用websocket实现聊天功能
+
+**原理**
+
+1、消息队列
+
+[什么是消息队列？ (juejin.cn)](https://juejin.cn/post/6844903817348136968)
+
+2、零拷贝原理
+
+3、中间件
+
+[不会还有人不知道中间件吧？ (juejin.cn)](https://juejin.cn/post/6882932453674057735)
+
+4、分布式锁
+
+5、函数调用
+
+[介绍 · 函数调用原理 (coder.cat)](https://gitbook.coder.cat/function-call-principle/)
+
+6、fopen和open区别
+
+7、awk和grep的使用、格式化输出
+
+8、单点登录
 
 [session多端登陆，共享怎么做的啊？ - SegmentFault 思否](https://segmentfault.com/q/1010000005788476)
+
+9、虚拟内存的寻址空间
