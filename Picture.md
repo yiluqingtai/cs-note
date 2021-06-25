@@ -113,3 +113,17 @@
 [可能是把 ZooKeeper 概念讲的最清楚的一篇文章 (juejin.cn)](https://juejin.cn/post/6844903677367418893)
 
 ![](https://i.loli.net/2021/06/23/nxdB3mLANJTrb9g.png)
+
+## 6月25日
+
+### 静音阈值曲线
+
+![](https://i.loli.net/2021/06/25/IK89f4Jmh7Zs3Hz.png)
+
+### 频域上的掩蔽效应
+
+![](https://i.loli.net/2021/06/25/ZQP2fmVjaIgd7AT.png)
+
+### 时域上的掩蔽效应
+
+![](https://i.loli.net/2021/06/25/PaRXZYOMKFDBbfv.png)
