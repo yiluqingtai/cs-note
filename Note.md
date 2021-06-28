@@ -404,6 +404,20 @@ source /etc/profile
 java -version
 ```
 
+## 6月28日
+
+1、**Javascipt：**[require 和 import 详解 (juejin.cn)](https://juejin.cn/post/6844903735554998280)
+
+（1）require
+
+在CommonJS中，有一个全局性方法require()，用于加载模块。
+
+模块写法分exports和module.exports。
+
+（2）import
+
+
+
 ## 待学习
 
 **工具使用**
@@ -471,3 +485,9 @@ java -version
 [session多端登陆，共享怎么做的啊？ - SegmentFault 思否](https://segmentfault.com/q/1010000005788476)
 
 9、虚拟内存的寻址空间
+
+## 总结类文章
+
+### Javascript
+
+1、[14万字 | 400 多道 JavaScript 面试题 🎓 有答案 🌠(第一部分 1-100题) (juejin.cn)](https://juejin.cn/post/6978348663286267912#no50)

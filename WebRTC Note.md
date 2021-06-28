@@ -914,6 +914,24 @@ Nyquist采样定律：采样率大于或等于连续信号最高频率分量的2
 
 未来音视频技术的应用：音视频+推荐算法，视频监控 + 内容识别。
 
+## 6月28日
+
+1、[即时通讯音视频开发（八）：常见的实时语音通讯编码标准-实时音视频/专项技术区 - 即时通讯开发者社区! (52im.net)](http://www.52im.net/thread-243-1-1.html)
+
+（1）在传统的视频会议系统、即时通讯聊天系统中音频技术发展极其缓慢，原因在于目前应用于视频通讯的音频编解码压缩标准都是为了保持传输时的低带宽占用和较高的编解码效率，从而将音频信号的采样频率、采样精度和采样范围指标做了极大的降低，使得所能提供的音频清晰度和还原性都有很大程度上的衰减。
+
+（2）目前传统视频通讯过程中主要采用的是G.711、G.722、G.721、G.728等音频标准，音频宽度仅有50Hz－7KHz单声道，而人耳所能感知的自然界的频响能力可以达到20Hz－20KHz，因此，在对现场环境音的还原过程中过多的音频信息的丢失造成了无法真实表现现场情况。
+
+（3）对下一代实时交互音频处理上可以采用MPEG-1 Layer 2或AAC系列音频，对选用标准的原则是，音频频响范围要达到22KHz，这样就几乎可以覆盖了人耳听觉的全部范围，甚至在高频方面还有所超越，能够使现场音频得到真实自然的还原，并且在还原时可以采用双声道立体声回放，使整个视频通讯的声音有更强的临近感，达到CD级音质。同时在对链路带宽的适应和编解码效率上达到最佳。
+
+（4）实时通讯音频编码
+
+传统：G.711、G.722、G.721、G.728
+
+MPEG系列
+
+AAC：目前最优
+
 ## 阅读计划
 
 [与WebRTC实时通信 (google.com)](https://codelabs.developers.google.com/codelabs/webrtc-web/#0)
@@ -940,8 +958,6 @@ Nyquist采样定律：采样率大于或等于连续信号最高频率分量的2
 
 [详解音视频直播中的低延时 (qq.com)](https://mp.weixin.qq.com/s/XywwxeyE9sUeJfDTNHg69g)
 
-[Browser APIs and Protocols: WebRTC - High Performance Browser Networking (O'Reilly) (hpbn.co)](https://hpbn.co/webrtc/#standards-and-development-of-webrtc)
-
 [即时通讯音视频开发（二）：视频编解码之数字视频介绍 - 云信博客 (163.com)](http://yunxin.163.com/blog/zhuan-im3-2/)
 
 ## 文档库
@@ -953,3 +969,23 @@ WebRTC官方的demo和说明文档，内容非常丰富。
 [Build the backend services needed for a WebRTC app: STUN, TURN, and signaling - HTML5 Rocks](https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/)
 
 深入解释了信令服务器的作用和部署。
+
+[Applied WebRTC | WebRTC for the Curious](https://webrtcforthecurious.com/docs/08-applied-webrtc/)
+
+相当完整的WebRTC内容的总结。
+
+[Browser APIs and Protocols: WebRTC - High Performance Browser Networking (O'Reilly) (hpbn.co)](https://hpbn.co/webrtc/#standards-and-development-of-webrtc)
+
+一本完整的书，介绍了网络通信的方方面面，其中一章以很高地质量介绍了WebRTC。
+
+## 文章分类列表
+
+### 音频
+
+1、**空间音效**：[8问8答，一篇文章读懂空间音效 (juejin.cn)](https://juejin.cn/post/6977659702393962527)
+
+2、**在线KTV：**[在线KTV解决方案 (juejin.cn)](https://juejin.cn/post/6977199851473731621)
+
+### 视频
+
+2、**AVQT**：[使用高级视频质量工具 AVQT 评估视频 | WWDC 演讲实录 (juejin.cn)](https://juejin.cn/post/6977560565061255176#heading-1)
