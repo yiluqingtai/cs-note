@@ -416,7 +416,24 @@ java -version
 
 （2）import
 
+## 6月29日
 
+1、**Docker：**[非root用户加入docker用户组省去sudo (juejin.cn)](https://juejin.cn/post/6974592882908872735)
+
+（1）查看是否有docker组
+
+```shell
+sudo cat /etc/group | grep docker
+```
+
+（2）添加docker分组并将当前用户加入该用户组中
+
+```shell
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
+（3）重启Docker并重新登录
 
 ## 待学习
 
