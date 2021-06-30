@@ -127,3 +127,17 @@
 ### 时域上的掩蔽效应
 
 ![](https://i.loli.net/2021/06/25/PaRXZYOMKFDBbfv.png)
+
+## 6月30日
+
+### 字节低延时直播融合架构图
+
+![](https://i.loli.net/2021/06/30/eT29hcVkWlxMKJ1.png)
+
+### 传统RTMP直播推拉流过程
+
+![](https://i.loli.net/2021/06/30/7G1hrVHFORJ3j9Y.png)
+
+### RTS直播和RTMP直播并存的推拉流过程
+
+![](https://i.loli.net/2021/06/30/6L7WFxzHcChge3k.png)

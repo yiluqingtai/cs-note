@@ -435,18 +435,6 @@ sudo usermod -aG docker $USER
 
 （3）重启Docker并重新登录
 
-2、**Node.js：**[调试 - 入门指南 | Node.js (nodejs.org)](https://nodejs.org/zh-cn/docs/guides/debugging-getting-started/)
-
-（1）启用检查器
-
-当使用 `--inspect` 开关符启动检查器时，一个 Node.js 进程开始侦听调试客户端。默认情况下侦听 127.0.0.1:9229 的域名和端口号。
-
---inspect=[host:port]指定监听的ip和port。
-
-（2）监视器客户端
-
-node监视器、chrome开发工具、vscode等
-
 ## 待学习
 
 **工具使用**
@@ -514,6 +502,8 @@ node监视器、chrome开发工具、vscode等
 [session多端登陆，共享怎么做的啊？ - SegmentFault 思否](https://segmentfault.com/q/1010000005788476)
 
 9、虚拟内存的寻址空间
+
+10、AB测试
 
 ## 总结类文章
 
