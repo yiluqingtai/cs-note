@@ -435,6 +435,62 @@ sudo usermod -aG docker $USER
 
 （3）重启Docker并重新登录
 
+## 7月1日
+
+1、[MySQL 安装 | 菜鸟教程 (runoob.com)](https://www.runoob.com/mysql/mysql-install.html)
+
+（1）apt或者rpm安装mysql
+
+```shell
+apt install mysql-server
+```
+
+（2）权限设置
+
+```shell
+chown mysql:mysql -R /var/lib/mysql
+```
+
+（3）初始化MySQL
+
+```shell
+mysqld --initialize
+```
+
+（4）启动MySQL
+
+```shell
+systemctl start mysqld
+```
+
+（5）查看MySQL运行状态
+
+```shell
+systemctl status mysqld
+```
+
+（6）验证MySQL安装
+
+```shell
+mysqladmin --version
+```
+
+（7）设置root用户密码
+
+```shell
+mysqladmin -u root password "new_password"
+```
+
+（8）连接到mysql服务器
+
+```shell
+mysql -u root -p
+```
+
+2、[Node.js 连接 MySQL | 菜鸟教程 (runoob.com)](https://www.runoob.com/nodejs/nodejs-mysql.html)
+
+
+
 ## 待学习
 
 **工具使用**
