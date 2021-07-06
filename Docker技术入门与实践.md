@@ -330,6 +330,90 @@ COPY复制内容到镜像。复制本地主机的`<src>`（为Dockerfile所在�
 
 1、BusyBox是一个集成了一百多个最常用Linux命令（如cat、echo、grep、mount、telnet等）的精简工具箱，它只有不到2 MB大小，被誉为“Linux系统的瑞士军刀”。
 
+#### 9.2 Alpine
+
+1、Alpine操作系统是一个面向安全的轻型Linux发行版，关注安全，性能和资源效能。在保持瘦身的同时，Alpine还提供了包管理工具apk查询和安装软件包。
+
+2、目前Docker官方推荐使用Alpine作为默认的基础镜像环境，这可以带来多个优势，如镜像下载速度加快、镜像安全性提高、主机之间的切换更方便、占用更少磁盘空间等。
+
+### 第10章 为镜像添加SSH服务
+
+1、当需要远程登录到容器内进行一些操作的时候，就需要SSH的支持了。本章具体介绍如何自行创建一个带有SSH服务的镜像。
+
+#### 10.1 基于commit命令创建
+
+1、配置软件源
+
+apt-get update
+
+2、安装和配置SSH服务
+
+安装ssh服务
+
+```shell
+apt install openssh-server
+```
+
+创建ssh运行目录并启动sshd服务
+
+```shell
+mkdir -p /var/run/sshd
+/usr/sbin/sshd -D &
+```
+
+查看容器的22号端口
+
+```shell
+netstat -tunlp
+```
+
+修改ssh的安全登录配置，取消pam登录限制
+
+```
+
+```
+
+在root目录下创建.ssh目录，复制需要登录的密钥信息到authorized_keys文件中
+
+公钥一般在本地用户目录的.ssh/id_rsa.pub文件中，可以由ssh-keygen -t rsa命令生成
+
+```shell
+mkdir /root/.ssh
+```
+
+创建sshd服务的启动脚本run.sh
+
+```shell
+#!/bin/bash
+/usr/sbin/sshd -D
+```
+
+3、保存镜像
+
+保存新的sshd:ubuntu镜像
+
+```shell
+docker commit ${docker image id} sshd:ubuntu
+```
+
+4、使用镜像
+
+启动容器，并添加端口映射10022->22
+
+```
+docker run -p 10022:22 -d sshd:ubuntu /run.sh
+```
+
+5、访问镜像
+
+使用ssh访问
+
+```shell
+ssh ${ip} -p port
+```
+
+
+
 ## 笔记
 
 1、第一章的内容比较通俗，概括地介绍了Docker的发展历史和基本概念。

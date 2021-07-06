@@ -312,9 +312,25 @@ Go语言没有默认参数值，也没有任何方法可以通过参数名指定
 
 ## 8 Goroutines和Channels
 
+1、Go语言中的并发程序可以用两种手段来实现，Goroutines和Channels。
 
+2、顺序通信进程CSP是一种现代的并发编程模型，在这种编程模型中值会在不同的运行实例（goroutine）中传递，尽管大多数情况下仍然是被限制在单一实例中。
 
+### 8.1 Goroutines
 
+1、在Go语言中，每一个并发的执行单元叫作一个goroutine。你可以简单地把goroutine类比作一个线程。
+
+2、当一个程序启动时，其主函数即在一个单独的goroutine中运行，我们叫它main goroutine。
+
+3、新的goroutine会用go语句来创建。
+
+在语法上，go语句是一个普通的函数或方法调用前加上关键字go。
+
+go语句会使其语句中的函数在一个新创建的goroutine中运行。
+
+4、主函数返回时，所有的goroutine都会被直接打断，程序退出。
+
+可以通过goroutine之间的通信来让一个goroutine请求其它的goroutine，并让被请求的goroutine自行结束执行。
 
 
 
