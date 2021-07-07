@@ -487,7 +487,17 @@ mysqladmin -u root password "new_password"
 mysql -u root -p
 ```
 
-2、[Node.js 连接 MySQL | 菜鸟教程 (runoob.com)](https://www.runoob.com/nodejs/nodejs-mysql.html)
+## 7月7日
+
+1、[鸟哥的 Linux 私房菜 -- Linux 账号管理 (vbird.org)](http://cn.linux.vbird.org/linux_basic/0410accountmanager_5.php)
+
+（1）PAM的目的：使某个用户可以使用系统资源，但不能登录linux主机。
+
+（2）让只使用资源不登录的用户使用/sbin/nologin作为他们的shell。
+
+如果我想要让某个具有 /sbin/nologin 的使用者知道，他们不能登陆主机时， 其实我可以创建『 /etc/nologin.txt 』这个文件， 并且在这个文件内说明不能登陆的原因，那么下次当这个用户想要登陆系统时， 屏幕上出现的就会是 /etc/nologin.txt 这个文件的内容，而不是默认的内容了！
+
+（3）PAM 可以说是一套应用程序编程接口 (Application Programming Interface, API)，他提供了一连串的验证机制，只要使用者将验证阶段的需求告知 PAM 后， PAM 就能够回报使用者验证的结果 (成功或失败)。
 
 
 

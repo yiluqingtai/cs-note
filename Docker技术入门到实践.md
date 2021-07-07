@@ -367,10 +367,10 @@ mkdir -p /var/run/sshd
 netstat -tunlp
 ```
 
-修改ssh的安全登录配置，取消pam登录限制
+设置登录账户密码
 
-```
-
+```shell
+passwd root
 ```
 
 在root目录下创建.ssh目录，复制需要登录的密钥信息到authorized_keys文件中
@@ -409,7 +409,7 @@ docker run -p 10022:22 -d sshd:ubuntu /run.sh
 使用ssh访问
 
 ```shell
-ssh ${ip} -p port
+ssh ${name@ip} -p port
 ```
 
 

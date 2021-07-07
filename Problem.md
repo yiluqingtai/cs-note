@@ -44,3 +44,20 @@ export http_proxy=ip:port
 export https_proxy=ip:port
 ```
 
+## 7月7日
+
+### ssh连接密码正确但被拒绝
+
+[解决ssh服务拒绝了密码，请再试一次，但密码是正确的 - 程序员大本营 (pianshen.com)](https://www.pianshen.com/article/20051526330/)
+
+修改/etc/ssh/sshd_config
+
+PermitRootLogin yes
+
+重启ssh服务 
+
+**公钥连接**
+
+将客户端的公钥放到服务端的.ssh/authorized_keys里面
+
+修改/etc/ssh/sshd_config，使PubkeyAuthentication为yes。

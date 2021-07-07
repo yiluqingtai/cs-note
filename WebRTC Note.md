@@ -1028,8 +1028,6 @@ RTP将RTP 数据包发往UDP端口对中偶数端口；RTCP将RTCP控制包发�
 
 ## 阅读计划
 
-
-
 [(5条消息) 直播为什么不使用WebRTC？_choujiqi5577的博客-CSDN博客](https://blog.csdn.net/choujiqi5577/article/details/100809203)
 
 [与WebRTC实时通信 (google.com)](https://codelabs.developers.google.com/codelabs/webrtc-web/#0)
