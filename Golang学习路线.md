@@ -29,3 +29,9 @@ Go语言实战
 （3）框架
 
 [Gin框架开发与实战 | 北京从零到壹科技有限公司 (chaindesk.cn)](https://www.chaindesk.cn/witbook/19)
+
+3、其他
+
+（1）go mod
+
+[Using Go Modules - The Go Blog (golang.org)](https://blog.golang.org/using-go-modules#TOC_1.)
