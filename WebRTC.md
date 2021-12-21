@@ -192,6 +192,10 @@ STUN：NAT穿透的一套工具，它提供了获取一个内网连接对应的�
 
 TURN：STUN协议的一个扩展，TURN服务器为每个peer分配一个中继地址，TURN服务器进行数据转发。
 
+SFU流程：发起端加入房间->设置本地SDP并上传offer到信令服务器（该SDP记录媒体信息）->信令通过rpc将offer发送给流媒体服务器->流媒体服务器收到offer，设置本地SDP和远程SDP并上传answer->客户端设置远程SDP->收集ICE Candidate（客户端发送请求到ICE server，ICE server下发STUN/TURN的url、用户名和密码，客户端发送请求到TURN server，获取候选地址），通过信令服务器交换->通过DTLS进行连通性检测->建立p2p的socket，通过srtp收发音视频数据。
+
+服务器的操作：流媒体服务器根据接入的客户端的ssrc（或者是session id？）新建一个transport，该transport中包含一个代表客户端的producer以及为每个同房间用户生成一个consumer，同房间其他用户也生成新加入客户端的consumer。客户端上传一路流到producer时，将转发该路流到它的所有订阅者（同房间其他客户端在服务器中生成的consumer）。
+
 **资料**
 
 1、《WebRTC native开发指南》
